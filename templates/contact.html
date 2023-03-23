@@ -23,7 +23,7 @@
                     as possible!</p>
                 <div class="my-5">
 
-                    <form id="contactForm" action="/form-entry" method="POST">
+                    <form id="contactForm" action="{{ url_for('contact') }}" method="POST">
                         <div class="form-floating">
                             <input class="form-control" id="name" name="name" type="text" placeholder="Enter your name..."/>
                             <label for="name">Name</label>
