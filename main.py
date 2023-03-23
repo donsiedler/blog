@@ -36,12 +36,13 @@ def view_post(post_id):
     return render_template("post.html", post=blog_post)
 
 
-@app.route("/form-entry")
+@app.route("/form-entry", methods=["POST"])
 def receive_contact_form_data():
-    name = request.form["name"]
-    email = request.form["email"]
-    phone = request.form["phone"]
-    message = request.form["message"]
+    data = request.form
+    name = data["name"]
+    email = data["email"]
+    phone = data["phone"]
+    message = data["message"]
     print(name, email, phone, message)
     return "<h1>Successfully sent your message</h1>"
 
