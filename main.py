@@ -1,10 +1,13 @@
+import os
 import requests
+import smtplib
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
 FAKE_POSTS_URL = "https://api.npoint.io/c790b4d5cab58020d391"
-
+EMAIL = os.environ.get("EMAIL")
+PASSWORD = os.environ.get("PASSWORD")
 
 @app.route("/")
 def home():
@@ -22,7 +25,20 @@ def contact():
         email = data["email"]
         phone = data["phone"]
         message = data["message"]
-        print(name, email, phone, message)
+
+        with smtplib.SMTP("smtp.gmail.com") as connection:
+            connection.starttls()
+            connection.login(user=EMAIL, password=PASSWORD)
+            connection.sendmail(
+                from_addr=EMAIL,
+                to_addrs=EMAIL,
+                msg=f"Subject: New contact form message\n\n"
+                    f"Name: {name}\n"
+                    f"Email: {email}\n"
+                    f"Phone: {phone}\n"
+                    f"Message: {message}"
+            )
+
         return render_template("contact.html", msg_sent=True)
     return render_template("contact.html", msg_sent=False)
 
