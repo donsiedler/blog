@@ -14,9 +14,19 @@ def home():
     return render_template("index.html", posts=posts)
 
 
-@app.route("/contact")
+@app.route("/contact", methods=["GET", "POST"])
 def contact():
-    return render_template("contact.html")
+    if request.method == "GET":
+        return render_template("contact.html")
+
+    elif request.method == "POST":
+        data = request.form
+        name = data["name"]
+        email = data["email"]
+        phone = data["phone"]
+        message = data["message"]
+        print(name, email, phone, message)
+        return "<h1>Successfully sent your message</h1>"
 
 
 @app.route("/about")
@@ -34,17 +44,6 @@ def view_post(post_id):
         if post["id"] == post_id:
             blog_post = post
     return render_template("post.html", post=blog_post)
-
-
-@app.route("/form-entry", methods=["POST"])
-def receive_contact_form_data():
-    data = request.form
-    name = data["name"]
-    email = data["email"]
-    phone = data["phone"]
-    message = data["message"]
-    print(name, email, phone, message)
-    return "<h1>Successfully sent your message</h1>"
 
 
 if __name__ == "__main__":
