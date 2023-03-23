@@ -16,17 +16,15 @@ def home():
 
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
-    if request.method == "GET":
-        return render_template("contact.html")
-
-    elif request.method == "POST":
+    if request.method == "POST":
         data = request.form
         name = data["name"]
         email = data["email"]
         phone = data["phone"]
         message = data["message"]
         print(name, email, phone, message)
-        return "<h1>Successfully sent your message</h1>"
+        return render_template("contact.html", msg_sent=True)
+    return render_template("contact.html", msg_sent=False)
 
 
 @app.route("/about")
