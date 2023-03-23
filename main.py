@@ -24,5 +24,17 @@ def about():
     return render_template("about.html")
 
 
+@app.route("/post/<int:post_id>")
+def view_post(post_id):
+    response = requests.get(FAKE_POSTS_URL)
+    response.raise_for_status()
+    all_posts = response.json()
+
+    for post in all_posts:
+        if post["id"] == post_id:
+            blog_post = post
+    return render_template("post.html", post=blog_post)
+
+
 if __name__ == "__main__":
     app.run()
